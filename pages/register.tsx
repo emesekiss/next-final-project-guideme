@@ -1,3 +1,5 @@
+import Layout from '../components/Layout';
+import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -10,63 +12,68 @@ export default function Register(props: { token: string }) {
 
   return (
     <>
-      <h1>Register</h1>
+      <Layout>
+        <Head>
+          <title>Register</title>
+        </Head>
+        <h1>Register</h1>
 
-      <form
-        onSubmit={async (e) => {
-          // Prevent the default browser behavior of forms
-          e.preventDefault();
+        <form
+          onSubmit={async (e) => {
+            // Prevent the default browser behavior of forms
+            e.preventDefault();
 
-          // Send the username, password and token to the
-          // API route
-          const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              username: username,
-              password: password,
-              token: props.token,
-            }),
-          });
+            // Send the username, password and token to the
+            // API route
+            const response = await fetch('/api/register', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                username: username,
+                password: password,
+                token: props.token,
+              }),
+            });
 
-          const { success } = await response.json();
+            const { success } = await response.json();
 
-          if (success) {
-            // Redirect to the homepage if successfully registered
-            router.push('/');
-          } else {
-            // If the response status code (set using response.status()
-            // in the API route) is 409 (Conflict) then show an error
-            // message that the user already exists
-            if (response.status === 409) {
-              setErrorMessage('User already exists!');
+            if (success) {
+              // Redirect to the homepage if successfully registered
+              router.push('/');
             } else {
-              setErrorMessage('Failed!');
+              // If the response status code (set using response.status()
+              // in the API route) is 409 (Conflict) then show an error
+              // message that the user already exists
+              if (response.status === 409) {
+                setErrorMessage('User already exists!');
+              } else {
+                setErrorMessage('Failed!');
+              }
             }
-          }
-        }}
-      >
-        <input
-          value={username}
-          onChange={(e) => setUsername(e.currentTarget.value)}
-        />
+          }}
+        >
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.currentTarget.value)}
+          />
 
-        <input
-          value={password}
-          type="password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-        />
+          <input
+            value={password}
+            type="password"
+            onChange={(e) => setPassword(e.currentTarget.value)}
+          />
 
-        <button>Register</button>
-      </form>
+          <button>Register</button>
+        </form>
 
-      <p style={{ color: 'red' }}>{errorMessage}</p>
+        <p style={{ color: 'red' }}>{errorMessage}</p>
 
-      <Link href="/login">
-        <a>Login</a>
-      </Link>
+        <Link href="/login">
+          <a>Login</a>
+        </Link>
+      </Layout>
     </>
   );
 }
