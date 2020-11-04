@@ -7,7 +7,7 @@ import nextCookies from 'next-cookies';
 import { GetServerSidePropsContext } from 'next';
 import { isSessionTokenValid } from '../util/auth';
 
-type Props = { loggedIn: boolean, redirectDestination: string };
+type Props = { loggedIn: boolean; redirectDestination: string };
 
 export default function Login(props: Props) {
   const [username, setUsername] = useState('');
@@ -68,7 +68,7 @@ export default function Login(props: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { session: token } = nextCookies(context);
 
-  const redirectDestination = context?.query?.returnTo ?? '/';
+  const redirectDestination = context?.query?.returnTo ?? '/profile';
 
   if (await isSessionTokenValid(token)) {
     return {

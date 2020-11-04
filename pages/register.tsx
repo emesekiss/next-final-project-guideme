@@ -41,7 +41,7 @@ export default function Register(props: { token: string }) {
 
             if (success) {
               // Redirect to the homepage if successfully registered
-              router.push('/');
+              router.push('/login');
             } else {
               // If the response status code (set using response.status()
               // in the API route) is 409 (Conflict) then show an error
@@ -89,5 +89,6 @@ export async function getServerSideProps() {
 
   // Create a CSRF token based on the secret
   const token = tokens.create(secret);
+
   return { props: { token } };
 }

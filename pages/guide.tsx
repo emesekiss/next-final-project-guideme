@@ -6,10 +6,10 @@ import nextCookies from 'next-cookies';
 
 type Props = { loggedIn: boolean };
 
-export default function Guide(props: Props) {
+export default function Guide({ loggedIn }: Props) {
   return (
     <div>
-      <Layout loggedIn={props.loggedIn}>
+      <Layout loggedIn={loggedIn}>
         <Head>
           <title>Guide</title>
         </Head>

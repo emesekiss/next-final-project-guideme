@@ -1,20 +1,28 @@
-import nextCookies from 'next-cookies';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import { isSessionTokenValid } from '../util/auth';
-import Layout from '../components/Layout';
-import { getUserBySessionToken } from '../util/database';
-import { User } from '../util/types';
 import { useState } from 'react';
+import Layout from '../../components/Layout';
+import { User } from '../../util/types';
 
-type Props = { user: User; loggedIn: boolean };
+type Props = {
+  user: User;
+};
 
-export default function Profile({ user, loggedIn }: Props) {
+export default function SingleUser(props: Props) {
+  // Tell TypeScript that this state variable may also
+  // be a string in the future
   const [editingKey, setEditingKey] = useState<string | null>(null);
 
-  const [username, setUsername] = useState(user?.username);
+  const [username, setUsername] = useState(props.user?.username);
 
-  if (!user) {
+  // const user = users.find((currentUser) => {
+  //   if (currentUser.id === props.id) {
+  //     return true;
+  //   }
+  //   return false;
+  // });
+
+  if (!props.user) {
     return (
       <Layout>
         <Head>
@@ -24,17 +32,15 @@ export default function Profile({ user, loggedIn }: Props) {
       </Layout>
     );
   }
+
   return (
-    <Layout loggedIn={loggedIn}>
+    <Layout>
       <Head>
-        <title>Profile</title>
+        <title>Single User</title>
       </Head>
-      <h1>Profile</h1>
-      <h2>Username</h2>
-      <p>{user.username}</p>
-      user id: {user.id}
+      user id: {props.user.id}
       <br />
-      <h2>user: {user.username}</h2>
+      <h2>user: {props.user.username}</h2>
       {editingKey === 'username' ? (
         <input
           value={username}
@@ -55,7 +61,7 @@ export default function Profile({ user, loggedIn }: Props) {
         <>
           <button
             onClick={async () => {
-              await fetch(`/api/users/${user.id}`, {
+              await fetch(`/api/users/${props.user.id}`, {
                 method: 'PATCH',
                 headers: {
                   'Content-Type': 'application/json',
@@ -71,7 +77,7 @@ export default function Profile({ user, loggedIn }: Props) {
           <button
             onClick={() => {
               setEditingKey(null);
-              setUsername(user.username);
+              setUsername(props.user.username);
             }}
           >
             cancel
@@ -81,10 +87,12 @@ export default function Profile({ user, loggedIn }: Props) {
       <br />
       <button
         onClick={async () => {
-          const answer = window.confirm(`Really delete user ${user.username}?`);
+          const answer = window.confirm(
+            `Really delete user ${props.user.username}?`,
+          );
 
           if (answer === true) {
-            await fetch(`/api/users/${user.id}`, { method: 'DELETE' });
+            await fetch(`/api/users/${props.user.id}`, { method: 'DELETE' });
 
             // This is just a fast way of refreshing the information
             //
@@ -107,22 +115,26 @@ export default function Profile({ user, loggedIn }: Props) {
   );
 }
 
+// This is run by Next.js BEFORE the component
+// above is run, and passes in the props
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { session: token } = nextCookies(context);
+  // context = {
+  //   query: { id: '1' },
+  //   params: { id: '1' },
+  // }
+  const id = context.query.id as string;
 
-  if (!(await isSessionTokenValid(token))) {
-    return {
-      redirect: {
-        destination: '/login?returnTo=/profile',
-        permanent: false,
-      },
-    };
-  }
+  // import { users } from '../../util/database';
+  const { getUserById } = await import('../../util/database');
+  const user = await getUserById(id);
 
-  // TODO: Actually, you could do this with one query
-  // instead of two like done here
-  const user = await getUserBySessionToken(token);
-  const loggedIn = await isSessionTokenValid(token);
+  // TODO: Don't do this in getServerSideProps
+  // updateUserById(id, { firstName: 'Evan' });
 
-  return { props: { user, loggedIn } };
+  const props: { user?: User } = {};
+  if (user) props.user = user;
+
+  return {
+    props: props,
+  };
 }

@@ -1,22 +1,23 @@
-import Head from 'next/head';
 import Layout from '../components/Layout';
-import nextCookies from 'next-cookies';
-import { isSessionTokenValid } from '../util/auth';
+import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
+import { isSessionTokenValid } from '../util/auth';
+import nextCookies from 'next-cookies';
 
 type Props = { loggedIn: boolean };
 
-export default function Home(props: Props) {
+export default function Contact({ loggedIn }: Props) {
   return (
-    <Layout loggedIn={props.loggedIn}>
-      <Head>
-        <title>GuideMe</title>
-      </Head>
-      <h1>Welcome to the homepage</h1>
-    </Layout>
+    <div>
+      <Layout loggedIn={loggedIn}>
+        <Head>
+          <title>Contact</title>
+        </Head>
+        <h2>Contact Form</h2>
+      </Layout>
+    </div>
   );
 }
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);

@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Header from './Header';
+import Footer from './Footer';
 
 export default function Layout(props) {
   return (
@@ -11,7 +12,7 @@ export default function Layout(props) {
 
       <main style={{ padding: 30 }}>{props.children}</main>
 
-      <footer style={{ padding: 30 }}>footer here</footer>
+      <Footer />
     </>
   );
 }
