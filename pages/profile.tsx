@@ -30,11 +30,8 @@ export default function Profile({ user, loggedIn }: Props) {
         <title>Profile</title>
       </Head>
       <h1>Profile</h1>
-      <h2>Username</h2>
-      <p>{user.username}</p>
-      user id: {user.id}
-      <br />
-      <h2>user: {user.username}</h2>
+      <h2>Username:{username}</h2>
+
       {editingKey === 'username' ? (
         <input
           value={username}

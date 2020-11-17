@@ -6,6 +6,7 @@ export default function Header(props) {
     <header>
       <div>
         <div>
+          <img style={{ height: 90 }} src="/logo.png" alt="logo" />
           <h2>GuideMe</h2>
         </div>
         <div>
@@ -61,6 +62,9 @@ export default function Header(props) {
               </Link>
             </>
           )}
+          <Link href="/search">
+            <a style={{ padding: 30 }}>SEARCH</a>
+          </Link>
         </div>
       </div>
     </header>

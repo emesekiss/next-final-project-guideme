@@ -6,8 +6,10 @@ export default function Layout(props) {
   return (
     <>
       <Head>
-        <link rel="icon" href="/favicon.ico" />
+        <title>GuideMe</title>
+        <link rel="icon" href="/logo.png" />
       </Head>
+
       <Header loggedIn={props.loggedIn} />
 
       <main style={{ padding: 30 }}>{props.children}</main>
