@@ -6,6 +6,7 @@ import Layout from '../components/Layout';
 import { getUserBySessionToken } from '../util/database';
 import { User } from '../util/types';
 import { useState } from 'react';
+import AvatarSelect from '../components/AvatarSelect';
 
 type Props = { user: User; loggedIn: boolean };
 
@@ -13,6 +14,19 @@ export default function Profile({ user, loggedIn }: Props) {
   const [editingKey, setEditingKey] = useState<string | null>(null);
 
   const [username, setUsername] = useState(user?.username);
+  const [avatar, setAvatar] = useState(user?.avatar);
+
+  const handleSelectAvatar = async (avatarId: string) => {
+    await fetch(`/api/users/${user.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: { avatar: avatarId } }),
+    });
+    setEditingKey(null);
+    setAvatar(avatarId);
+  };
 
   if (!user) {
     return (
@@ -60,7 +74,6 @@ export default function Profile({ user, loggedIn }: Props) {
                 body: JSON.stringify({ user: { username: username } }),
               });
               setEditingKey(null);
-              window.location.reload();
             }}
           >
             save
@@ -76,6 +89,16 @@ export default function Profile({ user, loggedIn }: Props) {
         </>
       )}
       <br />
+
+      <img src={`/avatars/${avatar}.svg`} />
+      <button
+        onClick={() => {
+          setEditingKey('avatar');
+        }}
+      >
+        edit
+      </button>
+
       <button
         onClick={async () => {
           const answer = window.confirm(`Really delete user ${user.username}?`);
@@ -100,6 +123,13 @@ export default function Profile({ user, loggedIn }: Props) {
       >
         delete user
       </button>
+
+      {editingKey === 'avatar' && (
+        <AvatarSelect
+          handleSelectAvatar={handleSelectAvatar}
+          close={() => setEditingKey(null)}
+        />
+      )}
     </Layout>
   );
 }

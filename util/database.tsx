@@ -81,7 +81,8 @@ export async function getUserBySessionToken(token: string | undefined) {
   const users = await sql<User[]>`
     SELECT
       users.id,
-      users.username
+      users.username,
+      avatar
     FROM
       users,
       sessions
@@ -110,7 +111,7 @@ export async function updateUserById(id: string, user: User) {
   // in the correct format
   if (!/^\d+$/.test(id)) return undefined;
 
-  const allowedProperties = ['username'];
+  const allowedProperties = ['username', 'avatar'];
   const userProperties = Object.keys(user);
 
   if (userProperties.length < 1) {
@@ -136,14 +137,14 @@ export async function updateUserById(id: string, user: User) {
     `;
   }
 
-  // if ('lastName' in user) {
-  //   users = await sql`
-  //     UPDATE users
-  //       SET last_name = ${user.lastName}
-  //       WHERE id = ${id}
-  //       RETURNING *;
-  //   `;
-  // }
+  if ('avatar' in user) {
+    users = await sql`
+      UPDATE users
+        SET avatar = ${user.avatar}
+        WHERE id = ${id}
+        RETURNING *;
+    `;
+  }
 
   // if ('city' in user) {
   //   users = await sql`

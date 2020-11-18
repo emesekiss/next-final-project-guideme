@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 export default function Layout(props) {
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <Head>
         <title>GuideMe</title>
         <link rel="icon" href="/logo.png" />
@@ -15,6 +15,6 @@ export default function Layout(props) {
       <main style={{ padding: 30 }}>{props.children}</main>
 
       <Footer />
-    </>
+    </div>
   );
 }
