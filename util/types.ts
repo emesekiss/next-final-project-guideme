@@ -3,6 +3,7 @@ export type User = {
   passwordHash: string;
   username: string;
   avatar: string;
+  resources_saved: number[];
 };
 
 export type Session = {

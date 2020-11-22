@@ -3,13 +3,15 @@ import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import { isSessionTokenValid } from '../util/auth';
 import nextCookies from 'next-cookies';
+import { User } from '../util/types';
+import { getUserBySessionToken } from '../util/database';
 
-type Props = { loggedIn: boolean };
+type Props = { loggedIn: boolean; user: User };
 
-export default function Contact({ loggedIn }: Props) {
+export default function Contact({ loggedIn, user }: Props) {
   return (
     <div>
-      <Layout loggedIn={loggedIn}>
+      <Layout loggedIn={loggedIn} user={user}>
         <Head>
           <title>Contact</title>
         </Head>
@@ -38,5 +40,6 @@ export default function Contact({ loggedIn }: Props) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
-  return { props: { loggedIn } };
+  const user = await getUserBySessionToken(token);
+  return { props: { loggedIn, user } };
 }

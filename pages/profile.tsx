@@ -3,14 +3,19 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { isSessionTokenValid } from '../util/auth';
 import Layout from '../components/Layout';
-import { getUserBySessionToken } from '../util/database';
+import {
+  deleteSavedResources,
+  getSavedResourcesByUserId,
+  getUserBySessionToken,
+} from '../util/database';
 import { User } from '../util/types';
 import { useState } from 'react';
 import AvatarSelect from '../components/AvatarSelect';
+import { resourceLimits } from 'worker_threads';
 
 type Props = { user: User; loggedIn: boolean };
 
-export default function Profile({ user, loggedIn }: Props) {
+export default function Profile({ user, loggedIn, savedResources }: Props) {
   const [editingKey, setEditingKey] = useState<string | null>(null);
 
   const [username, setUsername] = useState(user?.username);
@@ -26,11 +31,12 @@ export default function Profile({ user, loggedIn }: Props) {
     });
     setEditingKey(null);
     setAvatar(avatarId);
+    window.location.reload();
   };
 
   if (!user) {
     return (
-      <Layout>
+      <Layout loggedIn={loggedIn} user={user}>
         <Head>
           <title>User not found</title>
         </Head>
@@ -39,11 +45,47 @@ export default function Profile({ user, loggedIn }: Props) {
     );
   }
   return (
-    <Layout loggedIn={loggedIn}>
+    <Layout loggedIn={loggedIn} user={user}>
       <Head>
         <title>Profile</title>
       </Head>
       <h1>Profile</h1>
+
+      <div>
+        {savedResources.map((resource) => (
+          <div key={resource.id}>
+            {resource.name}
+            <button
+              onClick={async () => {
+                const answer = window.confirm(
+                  `Do you really want to delete ${resource.name} from your list?`,
+                );
+
+                if (answer === true) {
+                  await fetch(`/api/users/resources`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      resourceId: resource.id,
+                      userId: user.id,
+                    }),
+                  });
+                  window.location.reload();
+
+                  // This is just a fast way of refreshing the information
+                  //
+                  // A better version would be to save the props.user to a
+                  // separate state variable and then just set it here to null
+                }
+              }}
+            >
+              delete
+            </button>
+          </div>
+        ))}
+      </div>
       <h2>Username:{username}</h2>
 
       {editingKey === 'username' ? (
@@ -96,7 +138,7 @@ export default function Profile({ user, loggedIn }: Props) {
           setEditingKey('avatar');
         }}
       >
-        edit
+        change
       </button>
 
       <button
@@ -150,6 +192,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // instead of two like done here
   const user = await getUserBySessionToken(token);
   const loggedIn = await isSessionTokenValid(token);
+  const savedResources = await getSavedResourcesByUserId(user.id);
 
-  return { props: { user, loggedIn } };
+  return { props: { user, loggedIn, savedResources } };
 }

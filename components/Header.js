@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-export default function Header(props) {
-  const loggedInPassed = typeof props.loggedIn !== 'undefined';
+export default function Header({ user, loggedIn }) {
+  // console.log(user);
   return (
     <header>
       <div>
@@ -16,34 +16,8 @@ export default function Header(props) {
           <Link href="/urgent">
             <a style={{ padding: 30 }}>URGENT SUPPORT</a>
           </Link>
-          {/* <Link href="/profile">
-            <a style={{ padding: 30 }}>PROFILE</a>
-          </Link>
-          <Link href="/register">
-            <a style={{ padding: 30 }}>REGISTER</a>
-          </Link> */}
 
-          {/* {!loggedInPassed ? null : props.loggedIn ? (
-            <Link href="/profile">
-              <a style={{ padding: '0 10px' }}>PROFILE</a>
-            </Link>
-          ) : (
-            <Link href="/register">
-              <a style={{ padding: '0 10px' }}>REGISTER</a>
-            </Link>
-          )}
-
-          {!loggedInPassed ? null : props.loggedIn ? (
-            <Link href="/logout">
-              <a style={{ padding: '0 10px' }}>LOGOUT</a>
-            </Link>
-          ) : (
-            <Link href="/login">
-              <a style={{ padding: '0 10px' }}>LOGIN</a>
-            </Link>
-          )} */}
-
-          {props.loggedIn ? (
+          {loggedIn ? (
             <>
               <Link href="/profile">
                 <a style={{ padding: '0 10px' }}>PROFILE</a>
@@ -65,6 +39,14 @@ export default function Header(props) {
           <Link href="/search">
             <a style={{ padding: 30 }}>SEARCH</a>
           </Link>
+          {loggedIn && user && (
+            <Link href="/profile">
+              <img
+                style={{ height: '100px', transform: 'scaleX(-1)' }}
+                src={`/avatars/${user?.avatar}.svg`}
+              />
+            </Link>
+          )}
         </div>
       </div>
     </header>

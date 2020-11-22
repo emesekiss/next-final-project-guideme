@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Header from './Header';
 import Footer from './Footer';
 
-export default function Layout(props) {
+export default function Layout({ user, loggedIn, children }) {
   return (
     <div style={{ position: 'relative' }}>
       <Head>
@@ -10,9 +10,9 @@ export default function Layout(props) {
         <link rel="icon" href="/logo.png" />
       </Head>
 
-      <Header loggedIn={props.loggedIn} />
+      <Header loggedIn={loggedIn} user={user} />
 
-      <main style={{ padding: 30 }}>{props.children}</main>
+      <main style={{ padding: 30 }}>{children}</main>
 
       <Footer />
     </div>

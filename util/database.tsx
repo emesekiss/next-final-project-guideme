@@ -24,9 +24,9 @@ const sql =
 export async function registerUser(username: string, passwordHash: string) {
   const users = await sql<User[]>`
     INSERT INTO users
-      (username, password_hash)
+      (username, password_hash, avatar)
     VALUES
-      (${username}, ${passwordHash})
+      (${username}, ${passwordHash}, 8)
     RETURNING *;
   `;
 
@@ -76,7 +76,7 @@ export async function insertSession(token: string, userId: number) {
 
 // Example of a database query with an Inner Join
 export async function getUserBySessionToken(token: string | undefined) {
-  if (typeof token === 'undefined') return undefined;
+  if (typeof token === 'undefined') return null;
 
   const users = await sql<User[]>`
     SELECT
@@ -97,7 +97,7 @@ export async function getUserBySessionToken(token: string | undefined) {
 export async function getUserById(id: string) {
   // Return undefined if the id is not
   // in the correct format
-  if (!/^\d+$/.test(id)) return undefined;
+  if (!/^\d+$/.test(id)) return null;
 
   const users = await sql`
     SELECT * FROM users WHERE id = ${id};
@@ -109,7 +109,7 @@ export async function getUserById(id: string) {
 export async function updateUserById(id: string, user: User) {
   // Return undefined if the id is not
   // in the correct format
-  if (!/^\d+$/.test(id)) return undefined;
+  if (!/^\d+$/.test(id)) return null;
 
   const allowedProperties = ['username', 'avatar'];
   const userProperties = Object.keys(user);
@@ -146,22 +146,13 @@ export async function updateUserById(id: string, user: User) {
     `;
   }
 
-  // if ('city' in user) {
-  //   users = await sql`
-  //     UPDATE users
-  //       SET city = ${user.city}
-  //       WHERE id = ${id}
-  //       RETURNING *;
-  //   `;
-  // }
-
   return users.map((u) => camelcaseKeys(u))[0];
 }
 
 export async function deleteUserById(id: string) {
   // Return undefined if the id is not
   // in the correct format
-  if (!/^\d+$/.test(id)) return undefined;
+  if (!/^\d+$/.test(id)) return null;
 
   const users = await sql`
     DELETE FROM users
@@ -204,12 +195,85 @@ export async function getUsers() {
     SELECT * FROM users;
   `;
   return users.map((u) => camelcaseKeys(u));
-  // This is what it looks like without a library:
-  // return users.map((user) => {
-  //   return {
-  //     id: user.id,
-  //     firstName: user.first_name,
-  //     lastName: user.last_name,
-  //   };
-  // });
+}
+
+export async function getResources() {
+  const resources = await sql`
+    SELECT * FROM resources;
+  `;
+  return resources.map((u) => camelcaseKeys(u));
+}
+
+export async function getResourceById(id: string) {
+  // Return undefined if the id is not
+  // in the correct format
+  if (!/^\d+$/.test(id)) return null;
+
+  const resources = await sql`
+    SELECT * FROM resources WHERE id = ${id};
+  `;
+
+  return resources.map((u) => camelcaseKeys(u))[0];
+}
+
+// const getQuestionData = (id) => {
+//   // get question data from database
+//   const questData = { questId: 1 };
+
+//   //get choicesId according to questId
+//   const choiceIds = [];
+
+//   //get choices
+//   const choices = choiceIds.map((idx) => {
+//     // get choice from database
+//   });
+
+//   return { questData, choices };
+// };
+
+export async function saveResource(userId: number, resourceId: number) {
+  const savedResources = await sql<User[]>`
+    INSERT INTO users_resources
+      (user_id, resource_id)
+    VALUES
+      (${userId}, ${resourceId})
+    RETURNING *;
+  `;
+
+  return savedResources.map((u) => camelcaseKeys(u));
+}
+
+// export async function getSavedResourcesByUserId(id: number) {
+//   const resources = await sql`
+//     SELECT * FROM users_resources WHERE user_id = ${id};
+//   `;
+//   return resources.map((u) => camelcaseKeys(u));
+// }
+
+// export async function getResourcesBySavedResources(resourceId: number) {
+//   const savedResources = await sql`
+//   SELECT resources.name
+//   FROM resources, users_resources
+//   WHERE resources.id = ${resourceId} AND resources.id = users_resources.resource_id;`;
+//   return savedResources.map((u) => camelcaseKeys(u));
+// }
+
+export async function getSavedResourcesByUserId(userId: number) {
+  const resources = await sql`
+  SELECT resources.name, resources.id
+  FROM resources, users_resources 
+  WHERE users_resources.user_id = ${userId} AND resources.id = users_resources.resource_id;`;
+
+  return resources.map((u) => camelcaseKeys(u));
+}
+
+export async function deleteSavedResources(resourceId: number, userId: number) {
+  console.log(resourceId, userId);
+  const deletedResources = await sql`
+    DELETE FROM users_resources
+      WHERE resource_id = ${resourceId} AND user_id = ${userId}
+      ;
+  `;
+
+  return deletedResources.map((u) => camelcaseKeys(u));
 }

@@ -3,13 +3,14 @@ import Head from 'next/head';
 import { isSessionTokenValid } from '../util/auth';
 import nextCookies from 'next-cookies';
 import { useState } from 'react';
+import { getUserBySessionToken } from '../util/database';
 
 const choices = [
   { label: 'anxiety', linkTo: '/anxiety' },
   { label: 'lowMood', linkTo: '/contact' },
 ];
 
-export default function Guide({ loggedIn }) {
+export default function Guide({ loggedIn, user }) {
   const [filteredchoices, setFilteredchoices] = useState(null);
 
   const search = (e) => {
@@ -21,7 +22,7 @@ export default function Guide({ loggedIn }) {
 
   return (
     <div>
-      <Layout loggedIn={loggedIn}>
+      <Layout loggedIn={loggedIn} user={user}>
         <Head>
           <title>Guide</title>
         </Head>
@@ -45,5 +46,6 @@ export default function Guide({ loggedIn }) {
 export async function getServerSideProps(context) {
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
-  return { props: { loggedIn } };
+  const user = await getUserBySessionToken(token);
+  return { props: { loggedIn, user } };
 }
