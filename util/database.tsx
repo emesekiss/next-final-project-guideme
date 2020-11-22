@@ -2,6 +2,8 @@ import postgres from 'postgres';
 import dotenv from 'dotenv';
 import camelcaseKeys from 'camelcase-keys';
 import { Session, User } from './types';
+import { resourceUsage } from 'process';
+import { triggerAsyncId } from 'async_hooks';
 
 dotenv.config();
 
@@ -268,7 +270,6 @@ export async function getSavedResourcesByUserId(userId: number) {
 }
 
 export async function deleteSavedResources(resourceId: number, userId: number) {
-  console.log(resourceId, userId);
   const deletedResources = await sql`
     DELETE FROM users_resources
       WHERE resource_id = ${resourceId} AND user_id = ${userId}
@@ -276,4 +277,13 @@ export async function deleteSavedResources(resourceId: number, userId: number) {
   `;
 
   return deletedResources.map((u) => camelcaseKeys(u));
+}
+
+export async function filterResourcesByTag(tag) {
+  const filteredResources = await sql`SELECT resources.name, tags.tag 
+FROM resources, tags, resources_tags 
+WHERE resources_tags.tag_id = tags.id 
+AND tags.tag = ${tag}
+AND resources_tags.resource_id = resources.id;`;
+  return filteredResources.map((u) => camelcaseKeys(u));
 }
