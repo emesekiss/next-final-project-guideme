@@ -2,8 +2,6 @@ import postgres from 'postgres';
 import dotenv from 'dotenv';
 import camelcaseKeys from 'camelcase-keys';
 import { Session, User } from './types';
-import { resourceUsage } from 'process';
-import { triggerAsyncId } from 'async_hooks';
 
 dotenv.config();
 
@@ -218,21 +216,6 @@ export async function getResourceById(id: string) {
   return resources.map((u) => camelcaseKeys(u))[0];
 }
 
-// const getQuestionData = (id) => {
-//   // get question data from database
-//   const questData = { questId: 1 };
-
-//   //get choicesId according to questId
-//   const choiceIds = [];
-
-//   //get choices
-//   const choices = choiceIds.map((idx) => {
-//     // get choice from database
-//   });
-
-//   return { questData, choices };
-// };
-
 export async function saveResource(userId: number, resourceId: number) {
   const savedResources = await sql<User[]>`
     INSERT INTO users_resources
@@ -244,21 +227,6 @@ export async function saveResource(userId: number, resourceId: number) {
 
   return savedResources.map((u) => camelcaseKeys(u));
 }
-
-// export async function getSavedResourcesByUserId(id: number) {
-//   const resources = await sql`
-//     SELECT * FROM users_resources WHERE user_id = ${id};
-//   `;
-//   return resources.map((u) => camelcaseKeys(u));
-// }
-
-// export async function getResourcesBySavedResources(resourceId: number) {
-//   const savedResources = await sql`
-//   SELECT resources.name
-//   FROM resources, users_resources
-//   WHERE resources.id = ${resourceId} AND resources.id = users_resources.resource_id;`;
-//   return savedResources.map((u) => camelcaseKeys(u));
-// }
 
 export async function getSavedResourcesByUserId(userId: number) {
   const resources = await sql`
@@ -279,11 +247,31 @@ export async function deleteSavedResources(resourceId: number, userId: number) {
   return deletedResources.map((u) => camelcaseKeys(u));
 }
 
-export async function filterResourcesByTag(tag) {
+export async function filterResourcesByTag(tag: string) {
   const filteredResources = await sql`SELECT resources.name, tags.tag 
 FROM resources, tags, resources_tags 
 WHERE resources_tags.tag_id = tags.id 
 AND tags.tag = ${tag}
 AND resources_tags.resource_id = resources.id;`;
   return filteredResources.map((u) => camelcaseKeys(u));
+}
+
+export async function getChoices(optionsId: number) {
+  const choices = await sql`SELECT options_options.child_option_id, options.choice
+FROM options, options_options
+WHERE options_options.parent_option_id = ${optionsId} AND options_options.child_option_id = options.id`;
+  return choices.map((u) => camelcaseKeys(u));
+}
+export async function getQuestion(optionsId: number) {
+  const questions = await sql`SELECT options.question
+FROM options
+WHERE options.id = ${optionsId}`;
+  return questions[0].question;
+}
+
+export async function getResourcesResult(optionsId: number) {
+  const results = await sql`SELECT resources.name, resources.contact, resources.id
+FROM resources, options_resources
+WHERE ${optionsId} = options_resources.option_id AND options_resources.resource_id = resources.id`;
+  return results.map((u) => camelcaseKeys(u));
 }

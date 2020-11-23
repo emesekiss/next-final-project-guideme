@@ -21,7 +21,7 @@ export default function Home({ loggedIn, user }: Props) {
         will show resources to support you.
       </p>
       <div>
-        <a href="/guide">Take me to the guide</a>
+        <a href="/guide/1">Take me to the guide</a>
       </div>
       <a href="/about">Read more about us</a>
       <img style={{ height: '250px' }} src="/guide2.svg" />

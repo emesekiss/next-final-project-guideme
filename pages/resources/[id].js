@@ -3,20 +3,21 @@ import Layout from '../../components/Layout';
 import { isSessionTokenValid } from '../../util/auth';
 import nextCookies from 'next-cookies';
 import {
+  getResourceById,
   getSavedResourcesByUserId,
   getUserBySessionToken,
 } from '../../util/database';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Resource({
   loggedIn,
   resource,
   user,
-  isResourceSaved,
+  isResourceSavedInDB,
 }) {
-  const [errorMessage, setErrorMessage] = useState(null);
-  const router = useRouter();
+  const [isResourceSaved, setIsResourceSaved] = useState(isResourceSavedInDB);
+
   return (
     <Layout loggedIn={loggedIn} user={user}>
       <Head>
@@ -37,8 +38,6 @@ export default function Resource({
               // Prevent the default browser behavior of forms
               e.preventDefault();
 
-              // Send the username, password and token to the
-              // API route
               const response = await fetch('/api/users/resources', {
                 method: 'POST',
                 headers: {
@@ -53,16 +52,16 @@ export default function Resource({
               const { success } = await response.json();
 
               if (success) {
-                // Redirect to the homepage if successfully registered
-                router.push('/search');
-              } else {
-                setErrorMessage('Failed!');
+                setIsResourceSaved(true);
               }
             }}
           >
             save
           </button>
         )}
+        <Link href={'/search'}>
+          <a>Back to Search</a>
+        </Link>
       </div>
     </Layout>
   );
@@ -73,17 +72,16 @@ export async function getServerSideProps(context) {
   const loggedIn = await isSessionTokenValid(token);
 
   const id = context.query.id;
-  const { getResourceById } = await import('../../util/database');
   const resource = await getResourceById(id);
 
   const user = await getUserBySessionToken(token);
 
-  let isResourceSaved = false;
+  let isResourceSavedInDB = false;
   if (user) {
     const savedResources = await getSavedResourcesByUserId(user.id);
 
-    isResourceSaved =
-      savedResources.findIndex((item) => item.resourceId === +id) > -1;
+    isResourceSavedInDB =
+      savedResources.findIndex((item) => item.id === +id) > -1;
   }
 
   return {
@@ -91,7 +89,7 @@ export async function getServerSideProps(context) {
       resource,
       loggedIn,
       user,
-      isResourceSaved,
+      isResourceSavedInDB,
     },
   };
 }

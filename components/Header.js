@@ -6,11 +6,13 @@ export default function Header({ user, loggedIn }) {
     <header>
       <div>
         <div>
-          <img style={{ height: 90 }} src="/logo.png" alt="logo" />
+          <Link href="/">
+            <img style={{ height: 90 }} src="/logo.png" alt="logo" />
+          </Link>
           <h2>GuideMe</h2>
         </div>
         <div>
-          <Link href="/guide">
+          <Link href="/guide/1">
             <a style={{ padding: 30 }}>GUIDE</a>
           </Link>
           <Link href="/urgent">
