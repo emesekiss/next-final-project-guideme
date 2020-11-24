@@ -5,11 +5,8 @@ import {
   updateUserById,
 } from '../../../util/database';
 
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse,
-) {
-  const userId = request.query.id as string;
+export default async function handler(request, response) {
+  const userId = request.query.id;
 
   if (!/^\d+$/.test(userId)) {
     response.statusCode = 404;

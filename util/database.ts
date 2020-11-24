@@ -2,6 +2,9 @@ import postgres from 'postgres';
 import dotenv from 'dotenv';
 import camelcaseKeys from 'camelcase-keys';
 import { Session, User } from './types';
+import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
+
+setPostgresDefaultsOnHeroku();
 
 dotenv.config();
 
@@ -20,6 +23,8 @@ const sql =
         // Error: remaining connection slots are reserved for non-replication superuser connectionsError: remaining connection slots are reserved for non-replication superuser connections
         idle_timeout: 5,
       });
+
+    
 
 export async function registerUser(username: string, passwordHash: string) {
   const users = await sql<User[]>`
