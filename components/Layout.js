@@ -1,17 +1,33 @@
 import Head from 'next/head';
 import Header from './Header';
 import Footer from './Footer';
+import Menu from './Menu';
+import { useState } from 'react';
 
 export default function Layout({ user, loggedIn, children }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <div style={{ position: 'relative' }}>
+    <div
+      style={{
+        position: 'relative',
+        width: '100vw',
+        overflowX: 'hidden',
+        minHeight: '100vh',
+      }}
+    >
       <Head>
         <title>GuideMe</title>
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/loogo.png" />
       </Head>
+      <Menu isMenuOpen={isMenuOpen} isLoggedIn={loggedIn} user={user} />
 
-      <Header loggedIn={loggedIn} user={user} />
-
+      <Header
+        isLoggedIn={loggedIn}
+        user={user}
+        isMenuOpen={isMenuOpen}
+        onBurgerClick={setIsMenuOpen}
+      />
       <main style={{ padding: 30 }}>{children}</main>
 
       <Footer />
