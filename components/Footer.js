@@ -5,7 +5,7 @@ import Link from 'next/link';
 const footerStyles = css`
   display: flex;
   justify-content: space-between;
-  color: #6d6d6d;
+  color: #3c3c3c;
   a {
     padding: 10px;
   }

@@ -22,11 +22,12 @@ const BurgerStyled = (props) => (
       div {
         width: 2rem;
         height: 0.25rem;
-        background: white;
+        background: ${props.isMenuOpen ? '#252525' : 'white'};
         border-radius: 10px;
         transition: all 0.3s linear;
         position: relative;
         transform-origin: 1px;
+
         &:first-of-type {
           transform: ${props.isMenuOpen ? 'rotate(45deg)' : 'rotate(0)'};
         }

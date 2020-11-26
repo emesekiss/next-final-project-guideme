@@ -6,9 +6,14 @@ import Burger from './Burger';
 
 const logoStyles = css`
   cursor: pointer;
+
   & > img {
     width: 25px;
     height: auto;
+    :hover {
+      transform: translateY(-1px);
+      transition: 0.3;
+    }
     @media screen and (min-width: 520px) {
       width: 35px;
     }

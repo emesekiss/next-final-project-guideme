@@ -8,7 +8,7 @@ const MenuStyled = (props) => (
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background: gray;
+      background: white;
       height: 100vh;
       text-align: left;
       padding: 2rem;
@@ -20,13 +20,15 @@ const MenuStyled = (props) => (
       transform: ${props.isMenuOpen ? 'translateX(0)' : 'translateX(100%)'};
 
       a {
-        font-size: 2rem;
+        font-size: 1.5rem;
         text-transform: uppercase;
         padding: 2rem 0;
-        font-weight: bold;
+        font-weight: normal;
         letter-spacing: 0.5rem;
         text-decoration: none;
         transition: color 0.3s linear;
+        border-bottom: 3px solid #f5f1ed;
+        color: #252525;
       }
     `}
   >
