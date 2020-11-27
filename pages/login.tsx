@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import type {} from '@emotion/react/types/css-prop';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import Head from 'next/head';
@@ -6,7 +9,7 @@ import { useRouter } from 'next/router';
 import nextCookies from 'next-cookies';
 import { GetServerSidePropsContext } from 'next';
 import { isSessionTokenValid } from '../util/auth';
-
+import { boxStyles } from './contact';
 type Props = { loggedIn: boolean; redirectDestination: string };
 
 export default function Login({ loggedIn, redirectDestination }: Props) {
@@ -20,8 +23,6 @@ export default function Login({ loggedIn, redirectDestination }: Props) {
       <Head>
         <title>Login</title>
       </Head>
-
-      <h1>Login</h1>
 
       <form
         onSubmit={async (e) => {
@@ -43,22 +44,29 @@ export default function Login({ loggedIn, redirectDestination }: Props) {
           }
         }}
       >
-        <input
-          value={username}
-          onChange={(e) => setUsername(e.currentTarget.value)}
-        />
-        <input
-          value={password}
-          type="password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-        />
-        <button>Log in</button>
+        <div css={boxStyles}>
+          <h2>Login</h2>
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.currentTarget.value)}
+            placeholder="Username"
+          />
+          <input
+            value={password}
+            type="password"
+            onChange={(e) => setPassword(e.currentTarget.value)}
+            placeholder="Password"
+          />
+          <button>Log in</button>
+          <p style={{ color: 'red' }}>{errorMessage}</p>
+          <p>
+            Need an account?{' '}
+            <Link href="/register">
+              <a>Register here</a>
+            </Link>
+          </p>
+        </div>
       </form>
-      <p style={{ color: 'red' }}>{errorMessage}</p>
-
-      <Link href="/register">
-        <a>Register</a>
-      </Link>
     </Layout>
   );
 }

@@ -11,28 +11,34 @@ import { getUserBySessionToken } from '../util/database';
 
 type Props = { loggedIn: boolean; user: User };
 
-const contactFormStyles = css`
-  text-align: center;
-  border: 1px solid #1564d1;
-  border-radius: 8px;
-  input,
-  textarea {
-    min-height: 60px;
-    margin-bottom: 20px;
-    border: 3px solid #f5f1ed;
-    border-radius: 10px;
-    background-color: #fff;
-    font-size: 16px;
-    font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, Segoe UI,
-      Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-      sans-serif;
+export const boxStyles = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 1px;
+  color: #252525;
+  button {
+    border: 1px solid #1564d1;
+    color: #1564d1;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
   }
-  h2 {
-    font-size: 32px;
+  button:hover {
+    background-color: #1564d1;
+    color: white;
   }
-  form {
-    display: block;
-    text-align: center;
+
+  @media screen and (min-width: 768px) {
+    input,
+    textarea {
+      min-width: 300px;
+    }
+  }
+  a {
+    color: #1564d1;
   }
 `;
 
@@ -43,9 +49,10 @@ export default function Contact({ loggedIn, user }: Props) {
         <Head>
           <title>Contact</title>
         </Head>
-        <div css={contactFormStyles}>
-          <h2>Contact Form</h2>
-          <form name="contact" method="POST" data-netlify="true">
+        <form name="contact" method="POST" data-netlify="true">
+          <div css={boxStyles}>
+            <h2>Contact Form</h2>
+
             <input type="text" id="name" name="name" placeholder="Name" />
             <input
               type="text"
@@ -58,11 +65,9 @@ export default function Contact({ loggedIn, user }: Props) {
               name="message"
               placeholder="Write your message"
             ></textarea>
-            <p>
-              <button type="submit">Send message</button>
-            </p>
-          </form>
-        </div>
+            <button type="submit">Send message</button>
+          </div>
+        </form>
       </Layout>
     </div>
   );

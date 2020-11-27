@@ -1,8 +1,12 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import type {} from '@emotion/react/types/css-prop';
 import Layout from '../components/Layout';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { boxStyles } from './contact';
 
 type Props = { loggedIn: boolean; token: string };
 
@@ -17,7 +21,6 @@ export default function Register({ token, loggedIn }: Props) {
       <Head>
         <title>Register</title>
       </Head>
-      <h1>Register</h1>
 
       <form
         onSubmit={async (e) => {
@@ -55,25 +58,32 @@ export default function Register({ token, loggedIn }: Props) {
           }
         }}
       >
-        <input
-          value={username}
-          onChange={(e) => setUsername(e.currentTarget.value)}
-        />
+        <div css={boxStyles}>
+          <h2>Register</h2>
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.currentTarget.value)}
+            placeholder="Username"
+          />
 
-        <input
-          value={password}
-          type="password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-        />
+          <input
+            value={password}
+            type="password"
+            onChange={(e) => setPassword(e.currentTarget.value)}
+            placeholder="Password"
+          />
 
-        <button>Register</button>
+          <button>Register</button>
+          <p style={{ color: 'red' }}>{errorMessage}</p>
+
+          <p>
+            Already have an account?{' '}
+            <Link href="/login">
+              <a>Log in here</a>
+            </Link>
+          </p>
+        </div>
       </form>
-
-      <p style={{ color: 'red' }}>{errorMessage}</p>
-
-      <Link href="/login">
-        <a>Login</a>
-      </Link>
     </Layout>
   );
 }

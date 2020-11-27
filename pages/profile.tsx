@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import type {} from '@emotion/react/types/css-prop';
 import nextCookies from 'next-cookies';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
@@ -10,9 +13,33 @@ import {
 import { User } from '../util/types';
 import { useState } from 'react';
 import AvatarSelect from '../components/AvatarSelect';
+import { cardStyles, actionItemsWrapper } from './resources/[id]';
 
 type Props = { user: User; loggedIn: boolean; savedResources: [] };
-type Resource = { id: number; name: string };
+type Resource = {
+  id: number;
+  name: string;
+  image: string;
+  description: string;
+  contact: string;
+};
+
+const productStyles = css`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 25px;
+  column-gap: 25px;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 50px;
+    column-gap: 100px;
+  }
+`;
+
+const profileStyles = css`
+  color: #252525;
+  letter-spacing: 1px;
+`;
 
 export default function Profile({ user, loggedIn, savedResources }: Props) {
   const [editingKey, setEditingKey] = useState<string | null>(null);
@@ -48,45 +75,55 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
       <Head>
         <title>Profile</title>
       </Head>
-      <h1>Profile</h1>
-
-      <div>
+      <div css={profileStyles}>
+        <h1>Profile</h1>
+        <h3>Saved resources</h3>
+      </div>
+      <div css={productStyles}>
         {savedResources &&
           savedResources.map((resource: Resource) => (
-            <div key={resource.id}>
-              {resource.name}
-              <button
-                onClick={async () => {
-                  const answer = window.confirm(
-                    `Do you really want to delete ${resource.name} from your list?`,
-                  );
+            <div css={cardStyles} key={resource.id}>
+              <img src={`/resources/${resource.image}`} />
+              <h5>{resource.name}</h5>
+              <p>{resource.description}</p>
+              <div css={actionItemsWrapper}>
+                <a href={resource.contact}>CONTACT</a>
+                <button
+                  onClick={async () => {
+                    const answer = window.confirm(
+                      `Do you really want to delete ${resource.name} from your list?`,
+                    );
 
-                  if (answer === true) {
-                    await fetch(`/api/users/resources`, {
-                      method: 'DELETE',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
-                        resourceId: resource.id,
-                        userId: user.id,
-                      }),
-                    });
-                    window.location.reload();
+                    if (answer === true) {
+                      await fetch(`/api/users/resources`, {
+                        method: 'DELETE',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          resourceId: resource.id,
+                          userId: user.id,
+                        }),
+                      });
+                      window.location.reload();
 
-                    // This is just a fast way of refreshing the information
-                    //
-                    // A better version would be to save the props.user to a
-                    // separate state variable and then just set it here to null
-                  }
-                }}
-              >
-                delete
-              </button>
+                      // This is just a fast way of refreshing the information
+                      //
+                      // A better version would be to save the props.user to a
+                      // separate state variable and then just set it here to null
+                    }
+                  }}
+                >
+                  DELETE
+                </button>
+              </div>
             </div>
           ))}
       </div>
-      <h2>Username:{username}</h2>
+      <div css={profileStyles}>
+        <h3>Edit profile</h3>
+      </div>
+      <p>Username:</p>
 
       {editingKey === 'username' ? (
         <input
@@ -131,7 +168,7 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
         </>
       )}
       <br />
-
+      <p>Avatar:</p>
       <img src={`/avatars/${avatar}.svg`} />
       <button
         onClick={() => {

@@ -89,6 +89,7 @@ export default function Header({
               style={{
                 height: '50px',
                 transform: 'scaleX(-1)',
+                cursor: 'pointer',
               }}
               src={`/avatars/${user?.avatar}.svg`}
             />

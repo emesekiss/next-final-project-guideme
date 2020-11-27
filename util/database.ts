@@ -235,7 +235,7 @@ export async function saveResource(userId: number, resourceId: number) {
 
 export async function getSavedResourcesByUserId(userId: number) {
   const resources = await sql`
-  SELECT resources.name, resources.id
+  SELECT resources.name, resources.id, resources.contact, resources.image, resources.description
   FROM resources, users_resources 
   WHERE users_resources.user_id = ${userId} AND resources.id = users_resources.resource_id;`;
 

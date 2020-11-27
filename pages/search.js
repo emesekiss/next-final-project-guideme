@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import Layout from '../components/Layout';
 import Head from 'next/head';
 import { isSessionTokenValid } from '../util/auth';
@@ -5,6 +7,7 @@ import nextCookies from 'next-cookies';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getUserBySessionToken } from '../util/database';
+import { navigationLinkStyles } from '../pages/resources/[id]';
 
 export default function Search({ loggedIn, allResources, user }) {
   const [filteredResources, setFilteredResources] = useState(allResources);
@@ -34,9 +37,12 @@ export default function Search({ loggedIn, allResources, user }) {
           <title>Search</title>
         </Head>
 
-        <p>Filter by tag</p>
+        <h1> List of resources</h1>
+        <h4> Filter by tag</h4>
         <div>
-          <button onClick={clear}>clear filter</button>
+          <button onClick={clear} css={navigationLinkStyles}>
+            clear filter
+          </button>
         </div>
         <button onClick={() => setFilter('offline')}>offline</button>
         <button onClick={() => setFilter('digital')}>digital</button>
@@ -44,7 +50,6 @@ export default function Search({ loggedIn, allResources, user }) {
         <button onClick={() => setFilter('low mood')}>low mood</button>
         <button onClick={() => setFilter('self-harm')}>self-harm</button>
 
-        <h2>List of organisations:</h2>
         <div>
           {filteredResources.map((resource) => (
             <Link key={resource.name} href={`/resources/${resource.id}`}>
