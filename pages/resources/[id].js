@@ -11,81 +11,16 @@ import {
 } from '../../util/database';
 import { useState } from 'react';
 import Link from 'next/link';
+import {
+  linkStyles,
+  cardStyles,
+  actionItemsWrapper,
+} from '../../styles/styles';
 
-export const cardStyles = css`
-  background-color: white;
-  max-width: 300px;
-
-  padding: 25px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  font-size: 18px;
-  border-radius: 4px;
-  text-align: center;
-  img {
-    max-height: 100px;
-    max-width: 200px;
-  }
-  input {
-    font-size: 1.125rem;
-    font-family: 'Josefin Sans';
-  }
-  button,
-  a {
-    border: 1px solid #41b076;
-    color: #41b076;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: white;
-  }
-  a:hover,
-  button:hover {
-    background-color: #41b076;
-
-    color: white;
-  }
-  button:disabled {
-    opacity: 0.65;
-    cursor: unset;
-    :hover {
-      background-color: white;
-      color: #41b076;
-    }
-  }
-  p {
-    font-size: 18px;
-    font-weight: 300;
-  }
-  h5 {
-    color: #ff8914;
-    font-size: 21px;
-    font-weight: normal;
-    margin: 30px;
-  }
-`;
-
-export const navigationLinkStyles = css`
-  border: 1px solid #1564d1;
-  color: #1564d1;
-  font-size: 14px;
-  padding: 5px 10px;
-  border-radius: 4px;
-  background-color: #fcf8f2;
-  cursor: pointer;
-
-  :hover {
-    background-color: #1564d1;
-    color: white;
-  }
-`;
-export const actionItemsWrapper = css`
+const idCardWrapper = css`
   display: flex;
-  flex-direction: column;
-
-  & > *:first-child {
-    margin-bottom: 10px;
-  }
+  justify-content: center;
+  margin-bottom: 20px;
 `;
 
 export default function Resource({
@@ -101,11 +36,13 @@ export default function Resource({
       <Head>
         <title>Resource</title>
       </Head>
-      <div>
-        <div css={cardStyles} style={{ margin: 'auto' }}>
-          <img src={`/resources/${resource.image}`} alt={resource.id} />
-          <h5>{resource.name}</h5>
-          <p>{resource.description}</p>
+      <div css={idCardWrapper}>
+        <div css={cardStyles}>
+          <div>
+            <img src={`/resources/${resource.image}`} alt={resource.id} />
+            <h4>{resource.name}</h4>
+            <p>{resource.description}</p>
+          </div>
           <div css={actionItemsWrapper}>
             <a href={resource.contact}>CONTACT</a>
 
@@ -139,10 +76,11 @@ export default function Resource({
             )}
           </div>
         </div>
-        <Link href={'/search'}>
-          <a css={navigationLinkStyles}>Back to Search</a>
-        </Link>
       </div>
+
+      <Link href={'/search'}>
+        <a css={linkStyles}>Back to Search</a>
+      </Link>
     </Layout>
   );
 }

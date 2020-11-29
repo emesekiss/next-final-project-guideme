@@ -6,7 +6,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { boxStyles } from './contact';
+import { boxStyles } from '../styles/styles';
 
 type Props = { loggedIn: boolean; token: string };
 

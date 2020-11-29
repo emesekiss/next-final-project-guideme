@@ -160,8 +160,8 @@ export async function deleteUserById(id: string) {
   if (!/^\d+$/.test(id)) return null;
 
   const users = await sql`
-    DELETE FROM users
-      WHERE id = ${id}
+    DELETE FROM users 
+      WHERE id = ${id} 
       RETURNING *;
   `;
 
@@ -253,7 +253,7 @@ export async function deleteSavedResources(resourceId: number, userId: number) {
 }
 
 export async function filterResourcesByTag(tag: string) {
-  const filteredResources = await sql`SELECT resources.name, tags.tag 
+  const filteredResources = await sql`SELECT resources.name, tags.tag, resources.id, resources.contact, resources.image, resources.description
 FROM resources, tags, resources_tags 
 WHERE resources_tags.tag_id = tags.id 
 AND tags.tag = ${tag}
@@ -275,7 +275,7 @@ WHERE options.id = ${optionsId}`;
 }
 
 export async function getResourcesResult(optionsId: number) {
-  const results = await sql`SELECT resources.name, resources.contact, resources.id
+  const results = await sql`SELECT resources.name, resources.id, resources.contact, resources.image, resources.description
 FROM resources, options_resources
 WHERE ${optionsId} = options_resources.option_id AND options_resources.resource_id = resources.id`;
   return results.map((u) => camelcaseKeys(u));

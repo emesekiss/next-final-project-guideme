@@ -8,39 +8,9 @@ import { isSessionTokenValid } from '../util/auth';
 import nextCookies from 'next-cookies';
 import { User } from '../util/types';
 import { getUserBySessionToken } from '../util/database';
+import { boxStyles } from '../styles/styles';
 
 type Props = { loggedIn: boolean; user: User };
-
-export const boxStyles = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  letter-spacing: 1px;
-  color: #252525;
-  button {
-    border: 1px solid #1564d1;
-    color: #1564d1;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: #1564d1;
-    color: white;
-  }
-
-  @media screen and (min-width: 768px) {
-    input,
-    textarea {
-      min-width: 300px;
-    }
-  }
-  a {
-    color: #1564d1;
-  }
-`;
 
 export default function Contact({ loggedIn, user }: Props) {
   return (

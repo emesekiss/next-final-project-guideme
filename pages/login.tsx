@@ -9,7 +9,8 @@ import { useRouter } from 'next/router';
 import nextCookies from 'next-cookies';
 import { GetServerSidePropsContext } from 'next';
 import { isSessionTokenValid } from '../util/auth';
-import { boxStyles } from './contact';
+import { boxStyles } from '../styles/styles';
+
 type Props = { loggedIn: boolean; redirectDestination: string };
 
 export default function Login({ loggedIn, redirectDestination }: Props) {

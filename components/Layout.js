@@ -8,14 +8,7 @@ export default function Layout({ user, loggedIn, children }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100vw',
-        overflowX: 'hidden',
-        minHeight: '100vh',
-      }}
-    >
+    <div>
       <Head>
         <title>GuideMe</title>
         <link rel="icon" href="/loogo.png" />

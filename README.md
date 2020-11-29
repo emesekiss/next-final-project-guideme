@@ -1,30 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GuideMe
 
-## Getting Started
+- Mental Health Guide Prototype
 
-First, run the development server:
+## Description
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+GuideMe is a 'mobile first' designed website that helps people who struggle with mental health issues to connect them to the right organisations, hotlines.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This decision making website guides the user to a list of resources by asking relevant questions and providing choices to choose from with a strong focus on accessibility for all kinds of disability.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## List of Features
 
-## Learn More
+**Landing page** includes
 
-To learn more about Next.js, take a look at the following resources:
+- a header with logo, guide and urgent support page and a hamburger menu
+  - hamburger menu contains: sign in, user registration, search
+- a main section with the guide's first question
+- a footer with contact form and about us section
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Registration** optional
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- only registered users can save resources to their profile
+- user can change username, choose another avatar or delete the account
 
-## Deploy on Vercel
+**The guide** includes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- a simple questionnaire and based on the selected choices will show tailored resources
+- at the result page the user can take actions: contact or save the resource (save is only optional to registered users)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Technologies used
+
+- Next.js
+- React.js (with Hooks)
+- TypeScript
+- PostgreSQL with API Routes and ley for database migrations
+- emotion@core
+- Tests: E2E, Unit tests, accessibility tests, UX
+- Deployment: Heroku
+
+## Documentation
+
+- ReadMe
+- Project planning with Asana
+- Design planning with Figma
+
+## Screenshots

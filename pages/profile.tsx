@@ -13,7 +13,12 @@ import {
 import { User } from '../util/types';
 import { useState } from 'react';
 import AvatarSelect from '../components/AvatarSelect';
-import { cardStyles, actionItemsWrapper } from './resources/[id]';
+
+import {
+  actionItemsWrapper,
+  wholeCardStyles,
+  cardStyles,
+} from '../styles/styles';
 
 type Props = { user: User; loggedIn: boolean; savedResources: [] };
 type Resource = {
@@ -24,21 +29,29 @@ type Resource = {
   contact: string;
 };
 
-const productStyles = css`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  row-gap: 25px;
-  column-gap: 25px;
-  @media screen and (min-width: 768px) {
-    grid-template-columns: 1fr 1fr 1fr;
-    row-gap: 50px;
-    column-gap: 100px;
+export const editButtonStyles = css`
+  border: 1px solid #80376b;
+  color: #80376b;
+  font-size: 0.875rem;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 4px;
+  background-color: #fcf8f2;
+
+  :hover {
+    background-color: #80376b;
+    color: white;
+    cursor: pointer;
   }
 `;
 
-const profileStyles = css`
-  color: #252525;
-  letter-spacing: 1px;
+const deleteStyles = css`
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
 `;
 
 export default function Profile({ user, loggedIn, savedResources }: Props) {
@@ -75,17 +88,20 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
       <Head>
         <title>Profile</title>
       </Head>
-      <div css={profileStyles}>
+      <div>
         <h1>Profile</h1>
         <h3>Saved resources</h3>
       </div>
-      <div css={productStyles}>
+      <div css={wholeCardStyles}>
         {savedResources &&
           savedResources.map((resource: Resource) => (
             <div css={cardStyles} key={resource.id}>
-              <img src={`/resources/${resource.image}`} />
-              <h5>{resource.name}</h5>
-              <p>{resource.description}</p>
+              <div>
+                <img src={`/resources/${resource.image}`} />
+                <h4>{resource.name}</h4>
+                <p>{resource.description}</p>
+              </div>
+
               <div css={actionItemsWrapper}>
                 <a href={resource.contact}>CONTACT</a>
                 <button
@@ -120,65 +136,73 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
             </div>
           ))}
       </div>
-      <div css={profileStyles}>
+      <div>
         <h3>Edit profile</h3>
       </div>
-      <p>Username:</p>
+      <p>
+        Username:{' '}
+        {editingKey === 'username' ? (
+          <input
+            value={username}
+            onChange={(event) => setUsername(event.currentTarget.value)}
+          />
+        ) : (
+          username
+        )}
+        {editingKey !== 'username' ? (
+          <button
+            css={editButtonStyles}
+            onClick={() => {
+              setEditingKey('username');
+            }}
+          >
+            edit
+          </button>
+        ) : (
+          <>
+            <button
+              css={editButtonStyles}
+              onClick={async () => {
+                await fetch(`/api/users/${user.id}`, {
+                  method: 'PATCH',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ user: { username: username } }),
+                });
+                setEditingKey(null);
+              }}
+            >
+              save
+            </button>
+            <button
+              css={editButtonStyles}
+              onClick={() => {
+                setEditingKey(null);
+                setUsername(user.username);
+              }}
+            >
+              cancel
+            </button>
+          </>
+        )}
+      </p>
 
-      {editingKey === 'username' ? (
-        <input
-          value={username}
-          onChange={(event) => setUsername(event.currentTarget.value)}
-        />
-      ) : (
-        username
-      )}
-      {editingKey !== 'username' ? (
+      <p>
+        Avatar:
+        <img src={`/avatars/${avatar}.svg`} style={{ maxHeight: '200px' }} />
         <button
+          css={editButtonStyles}
           onClick={() => {
-            setEditingKey('username');
+            setEditingKey('avatar');
           }}
         >
-          edit
+          change
         </button>
-      ) : (
-        <>
-          <button
-            onClick={async () => {
-              await fetch(`/api/users/${user.id}`, {
-                method: 'PATCH',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user: { username: username } }),
-              });
-              setEditingKey(null);
-            }}
-          >
-            save
-          </button>
-          <button
-            onClick={() => {
-              setEditingKey(null);
-              setUsername(user.username);
-            }}
-          >
-            cancel
-          </button>
-        </>
-      )}
-      <br />
-      <p>Avatar:</p>
-      <img src={`/avatars/${avatar}.svg`} />
-      <button
-        onClick={() => {
-          setEditingKey('avatar');
-        }}
-      >
-        change
-      </button>
+      </p>
 
       <button
+        css={deleteStyles}
         onClick={async () => {
           const answer = window.confirm(`Really delete user ${user.username}?`);
 
@@ -191,13 +215,6 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
             // separate state variable and then just set it here to null
             window.location.reload();
           }
-        }}
-        style={{
-          background: 'red',
-          color: 'white',
-          padding: '7px 6px',
-          borderRadius: 4,
-          border: 0,
         }}
       >
         delete user

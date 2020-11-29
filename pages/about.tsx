@@ -11,46 +11,30 @@ import { getUserBySessionToken } from '../util/database';
 type Props = { loggedIn: boolean; user: User };
 
 const aboutStyles = css`
-  color: #252525;
   h1 {
     text-align: center;
-    letter-spacing: 1px;
-    padding: 30px;
-  }
-  @media screen and (min-width: 768px) {
-    p,
-    a {
-      align-self: center;
-      font-size: 18px;
-      text-align: center;
-      font-weight: 300;
-      margin: 20px;
-    }
   }
   p,
   a {
-    margin: 10px;
     text-align: center;
+    margin: 10px 0;
   }
-  span {
+  a {
     text-decoration: underline;
   }
-  @media screen and (min-width: 768px) {
-    div {
-      display: flex;
-      justify-content: space-around;
-    }
-  }
-  div {
-  }
+
   img {
     width: 250px;
     height: auto;
-    margin: 50px;
+    margin: 10px;
   }
   @media screen and (min-width: 768px) {
     img {
       margin: 10px;
+    }
+    div {
+      display: flex;
+      justify-content: space-around;
     }
   }
 `;
@@ -85,9 +69,9 @@ export default function About({ loggedIn, user }: Props) {
           </p>
           <div>
             <img src="/us.svg" />
-            <a href="/urgent">
-              If you need urgent support click <span>here.</span>
-            </a>
+            <p>
+              If you need urgent support <a href="/urgent">click here.</a>
+            </p>
           </div>
         </div>
       </Layout>

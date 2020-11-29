@@ -8,15 +8,14 @@ import { isSessionTokenValid } from '../util/auth';
 import { GetServerSidePropsContext } from 'next';
 import { User } from '../util/types';
 import { getUserBySessionToken } from '../util/database';
+import { linkStyles } from '../styles/styles';
 
 type Props = { loggedIn: boolean; user: User };
 
 const homeStyles = css`
-  color: #252525;
   h1 {
     font-size: 48px;
     text-align: center;
-    letter-spacing: 1px;
   }
   @media screen and (min-width: 768px) {
     h1 {
@@ -37,28 +36,16 @@ const homeStyles = css`
       margin: 0px 50px;
     }
   }
-  div {
-    display: flex;
-    justify-content: space-evenly;
-  }
+
   p {
-    align-self: center;
     margin-bottom: 100px;
-    font-size: 18px;
     text-align: center;
-    font-weight: 300;
   }
-  a {
-    border: 1px solid #1564d1;
-    color: #1564d1;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 4px;
-  }
-  a:hover {
-    background-color: #1564d1;
-    color: white;
-  }
+`;
+
+const sectionWrapperStyles = css`
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 export default function Home({ loggedIn, user }: Props) {
@@ -69,7 +56,7 @@ export default function Home({ loggedIn, user }: Props) {
       </Head>
       <div css={homeStyles}>
         <h1>Welcome to GuideMe</h1>
-        <div>
+        <div css={sectionWrapperStyles}>
           <img src="/guide1.svg" />
           <p>
             GuideMe can help you find mental wellbeing apps and resources that
@@ -78,9 +65,13 @@ export default function Home({ loggedIn, user }: Props) {
           </p>
           <img src="/guide2.svg" />
         </div>
-        <div>
-          <a href="/guide/1">GUIDE</a>
-          <a href="/about">ABOUT US</a>
+        <div css={sectionWrapperStyles}>
+          <a css={linkStyles} href="/guide/1">
+            GUIDE
+          </a>
+          <a css={linkStyles} href="/about">
+            ABOUT US
+          </a>
         </div>
       </div>
     </Layout>
