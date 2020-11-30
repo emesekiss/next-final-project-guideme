@@ -37,6 +37,7 @@ export const choiceStyles = css`
   padding: 10px 20px;
   border-radius: 4px;
   background-color: white;
+  margin: 10px;
 
   &:hover {
     background-color: #ff8914;
@@ -47,8 +48,15 @@ export const choiceStyles = css`
 
 const choicesWrapperStyles = css`
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  padding: 100px 0;
+  padding: 50px;
+  @media screen and (min-width: 760px) {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-around;
+    padding: 100px 0;
+  }
 `;
 
 export default function Guide({

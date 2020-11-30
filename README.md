@@ -30,7 +30,7 @@ This decision making website guides the user to a list of resources by asking re
 ## Technologies used
 
 - Next.js
-- React.js (with Hooks)
+- React.js
 - TypeScript
 - PostgreSQL with API Routes and ley for database migrations
 - emotion@core

@@ -120,3 +120,18 @@ export const actionItemsWrapper = css`
     margin-bottom: 10px;
   }
 `;
+
+export const footerStyles = css`
+  /* position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 10px; */
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  color: #3c3c3c;
+  a {
+    padding: 10px;
+  }
+`;

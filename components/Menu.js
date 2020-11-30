@@ -12,11 +12,10 @@ const MenuStyled = (props) => (
       height: 100vh;
       text-align: left;
       padding: 2rem;
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
       transition: transform 0.3s ease-in-out;
-      transform: translateX(100%);
       transform: ${props.isMenuOpen ? 'translateX(0)' : 'translateX(100%)'};
 
       a {
