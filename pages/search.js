@@ -9,27 +9,37 @@ import Link from 'next/link';
 import { getUserBySessionToken } from '../util/database';
 import { editButtonStyles } from './profile';
 
+const tags = ['offline', 'digital', 'anxiety', 'low mood', 'self-harm'];
+
 const searchWrapperStyles = css`
   display: flex;
   justify-content: space-around;
   margin-bottom: 30px;
 `;
 
-export const tagLinkStyles = css`
-  border: 1px solid #41b076;
-  color: #41b076;
-  font-size: 0.875rem;
-  padding: 5px 10px;
-  border-radius: 4px;
-  background-color: #fcf8f2;
-  margin: 5px;
+const TagButton = ({ label, onClick, currentlySelected }) => (
+  <button
+    css={css`
+      border: 1px solid #41b076;
+      color: ${currentlySelected === label ? 'white' : '#41b076'};
+      font-size: 0.875rem;
+      padding: 5px 10px;
+      border-radius: 4px;
+      background-color: ${currentlySelected === label ? '#41b076' : '#fcf8f2'};
+      margin: 5px;
 
-  &:hover {
-    background-color: #41b076;
-    color: white;
-    cursor: pointer;
-  }
-`;
+      &:hover {
+        background-color: #41b076;
+        color: white;
+        cursor: pointer;
+      }
+    `}
+    onClick={() => onClick(label)}
+  >
+    {label}
+  </button>
+);
+
 const searchResultStyles = css`
   margin: 10px 0px;
   a {
@@ -40,7 +50,7 @@ const searchResultStyles = css`
 export default function Search({ loggedIn, allResources, user }) {
   const [filteredResources, setFilteredResources] = useState(allResources);
   const [filter, setFilter] = useState(null);
-  const [isTagSelected, setIsTagSelected] = useState(false);
+
   useEffect(async () => {
     if (filter) {
       const response = await fetch(`/api/users/filterResources?tag=${filter}`, {
@@ -57,6 +67,7 @@ export default function Search({ loggedIn, allResources, user }) {
 
   const clear = () => {
     setFilteredResources(allResources);
+    setFilter(null);
   };
   return (
     <div>
@@ -65,25 +76,18 @@ export default function Search({ loggedIn, allResources, user }) {
           <title>Search</title>
         </Head>
 
-        <h1> List of resources</h1>
-        <h3> Filter by tag</h3>
+        <h1>List of resources</h1>
+        <h3>Filter by tag</h3>
         <div css={searchWrapperStyles}>
           <div>
-            <button css={tagLinkStyles} onClick={() => setFilter('offline')}>
-              offline
-            </button>
-            <button css={tagLinkStyles} onClick={() => setFilter('digital')}>
-              digital
-            </button>
-            <button css={tagLinkStyles} onClick={() => setFilter('anxiety')}>
-              anxiety
-            </button>
-            <button css={tagLinkStyles} onClick={() => setFilter('low mood')}>
-              low mood
-            </button>
-            <button css={tagLinkStyles} onClick={() => setFilter('self-harm')}>
-              self-harm
-            </button>
+            {tags.map((tag) => (
+              <TagButton
+                key={`tag-button-${tag}`}
+                label={tag}
+                onClick={setFilter}
+                currentlySelected={filter}
+              />
+            ))}
           </div>
           <div>
             <button onClick={clear} css={editButtonStyles}>
