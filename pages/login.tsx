@@ -48,17 +48,19 @@ export default function Login({ loggedIn, redirectDestination }: Props) {
         <div css={boxStyles}>
           <h2>Login</h2>
           <input
+            data-cy="username"
             value={username}
             onChange={(e) => setUsername(e.currentTarget.value)}
             placeholder="Username"
           />
           <input
+            data-cy="password"
             value={password}
             type="password"
             onChange={(e) => setPassword(e.currentTarget.value)}
             placeholder="Password"
           />
-          <button>Log in</button>
+          <button data-cy="login">Log in</button>
           <p style={{ color: 'red' }}>{errorMessage}</p>
           <p>
             Need an account?{' '}

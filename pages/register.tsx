@@ -61,19 +61,21 @@ export default function Register({ token, loggedIn }: Props) {
         <div css={boxStyles}>
           <h2>Register</h2>
           <input
+            data-cy="username"
             value={username}
             onChange={(e) => setUsername(e.currentTarget.value)}
             placeholder="Username"
           />
 
           <input
+            data-cy="password"
             value={password}
             type="password"
             onChange={(e) => setPassword(e.currentTarget.value)}
             placeholder="Password"
           />
 
-          <button>Register</button>
+          <button data-cy="register-user">Register</button>
           <p style={{ color: 'red' }}>{errorMessage}</p>
 
           <p>

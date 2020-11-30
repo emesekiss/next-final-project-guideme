@@ -49,11 +49,11 @@ export default function Menu({ isMenuOpen, isLoggedIn }) {
         </>
       ) : (
         <>
-          <Link href="/register">
-            <a>REGISTER</a>
+          <Link href="/register" data-cy="go-to-register">
+            <a data-cy="go-to-register"> REGISTER</a>
           </Link>
-          <Link href="/login">
-            <a>LOGIN</a>
+          <Link href="/login" data-cy="go-to-login">
+            <a data-cy="go-to-login">LOGIN</a>
           </Link>
         </>
       )}

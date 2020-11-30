@@ -4,12 +4,16 @@ import Link from 'next/link';
 import { footerStyles } from '../styles/styles';
 
 const iconStyles = css`
+  align-self: flex-end;
+  @media screen and (min-width: 600px) {
+  }
   img {
     width: 30px;
     height: auto;
   }
 `;
 const navigationStyles = css`
+  align-self: flex-end;
   @media screen and (max-width: 600px) {
     display: flex;
     flex-direction: column;

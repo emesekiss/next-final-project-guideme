@@ -54,7 +54,7 @@ export default function Burger({ isMenuOpen, toggleMenu }) {
       onClick={() => toggleMenu(!isMenuOpen)}
       isMenuOpen={isMenuOpen}
     >
-      <div />
+      <div data-cy="hamburger-menu" />
       <div />
       <div />
     </BurgerStyled>

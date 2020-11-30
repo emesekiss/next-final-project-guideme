@@ -202,6 +202,7 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
       </p>
 
       <button
+        data-cy="delete-profile"
         css={deleteStyles}
         onClick={async () => {
           const answer = window.confirm(`Really delete user ${user.username}?`);
