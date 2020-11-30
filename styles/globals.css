@@ -7,10 +7,19 @@ body {
     sans-serif;
   background-color: #fcf8f2;
   background-image: url(../public/background.svg);
+
   background-repeat: no-repeat;
   background-size: contain;
   color: #252525;
 }
+
+@media screen and (max-width: 600px) {
+  html,
+  body {
+    background-image: url(../public/media.svg);
+  }
+}
+
 body {
   position: relative;
   width: 100vw;
@@ -18,8 +27,10 @@ body {
   min-height: 100vh;
 }
 main {
+  width: 100%;
   max-width: 1000px;
-  margin: auto;
+  margin: 0 auto;
+  flex: 1 1 auto;
 }
 a {
   color: inherit;

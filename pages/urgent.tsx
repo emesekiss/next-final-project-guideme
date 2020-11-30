@@ -11,6 +11,8 @@ import { getUserBySessionToken } from '../util/database';
 type Props = { loggedIn: boolean; user: User };
 
 const urgentSupportStyles = css`
+  margin-left: 20px;
+  margin-right: 20px;
   h4 {
     font-size: 1.5rem;
     font-style: italic;

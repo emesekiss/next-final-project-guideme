@@ -122,11 +122,7 @@ export const actionItemsWrapper = css`
 `;
 
 export const footerStyles = css`
-  /* position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 10px; */
+  flex: 0 1 auto;
   padding: 30px;
   display: flex;
   justify-content: space-between;
@@ -134,4 +130,10 @@ export const footerStyles = css`
   a {
     padding: 10px;
   }
+`;
+
+export const layoutWrapperStyles = css`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;

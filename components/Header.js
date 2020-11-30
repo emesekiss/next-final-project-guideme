@@ -25,17 +25,19 @@ const logoStyles = css`
 
 const headerStyles = css`
   color: white;
-  font-size: 14px;
   font-weight: bold;
   letter-spacing: 1px;
   text-shadow: 2px 2px 14px rgba(0, 0, 0, 0.24);
-  padding: 10px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 12px;
+
+  @media screen and (min-width: 750px) {
+    font-size: 14px;
+    padding: 10px;
+  }
   a {
-    margin: 10px;
     cursor: pointer;
   }
 
@@ -48,6 +50,16 @@ const activeNav = css`
   text-decoration: underline;
 `;
 
+const headerWrapper = css`
+  display: flex;
+  a {
+    margin: 5px;
+    @media screen and (min-width: 750px) {
+      margin: 10px;
+    }
+  }
+`;
+
 export default function Header({
   user,
   isLoggedIn,
@@ -57,7 +69,7 @@ export default function Header({
   const router = useRouter();
   return (
     <header css={headerStyles}>
-      <div>
+      <div css={headerWrapper}>
         <Link href="/guide/1">
           <a css={router.pathname == '/guide/[id]' ? activeNav : ''}>GUIDE</a>
         </Link>
