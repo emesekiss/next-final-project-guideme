@@ -23,14 +23,22 @@ export default function Contact({ loggedIn, user }: Props) {
           <div css={boxStyles}>
             <h2>Contact Form</h2>
 
-            <input type="text" id="name" name="name" placeholder="Name" />
             <input
+              title="username"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name"
+            />
+            <input
+              title="e-mail address"
               type="text"
               id="email"
               name="email"
               placeholder="Email address"
             />
             <textarea
+              title="message"
               id="message"
               name="message"
               placeholder="Write your message"

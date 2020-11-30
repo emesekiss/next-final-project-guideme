@@ -97,7 +97,7 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
           savedResources.map((resource: Resource) => (
             <div css={cardStyles} key={resource.id}>
               <div>
-                <img src={`/resources/${resource.image}`} />
+                <img alt="" src={`/resources/${resource.image}`} />
                 <h4>{resource.name}</h4>
                 <p>{resource.description}</p>
               </div>
@@ -190,7 +190,11 @@ export default function Profile({ user, loggedIn, savedResources }: Props) {
 
       <p>
         Avatar:
-        <img src={`/avatars/${avatar}.svg`} style={{ maxHeight: '200px' }} />
+        <img
+          alt="avatar picture"
+          src={`/avatars/${avatar}.svg`}
+          style={{ maxHeight: '200px' }}
+        />
         <button
           css={editButtonStyles}
           onClick={() => {

@@ -68,7 +68,10 @@ export default function About({ loggedIn, user }: Props) {
             on any device and is completely anonymous.
           </p>
           <div>
-            <img src="/us.svg" />
+            <img
+              alt="group of people standing and sitting together"
+              src="/us.svg"
+            />
             <p>
               If you need urgent support <a href="/urgent">click here.</a>
             </p>

@@ -36,13 +36,13 @@ export default function Footer() {
       </div>
       <div css={iconStyles}>
         <a href="https://www.linkedin.com/in/emese-kiss-13849090/">
-          <img src="/linkedin.svg" />
+          <img alt="linkedin logo" src="/linkedin.svg" />
         </a>
         <a href="https://github.com/emesekiss">
-          <img src="/github.svg" />
+          <img alt="github logo" src="/github.svg" />
         </a>
         <a href="https://twitter.com/Emese76296705">
-          <img src="/twitter.svg" />
+          <img alt="twitter logo" src="/twitter.svg" />
         </a>
       </div>
     </footer>

@@ -48,12 +48,14 @@ export default function Login({ loggedIn, redirectDestination }: Props) {
         <div css={boxStyles}>
           <h2>Login</h2>
           <input
+            title="username"
             data-cy="username"
             value={username}
             onChange={(e) => setUsername(e.currentTarget.value)}
             placeholder="Username"
           />
           <input
+            title="password"
             data-cy="password"
             value={password}
             type="password"

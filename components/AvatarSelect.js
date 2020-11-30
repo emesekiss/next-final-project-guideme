@@ -29,6 +29,7 @@ export default function AvatarSelect({ handleSelectAvatar, close }) {
       >
         {range(1, 11).map((avatarNumber) => (
           <img
+            alt="choosen avatar picture"
             key={`avatar-${avatarNumber}`}
             src={`/avatars/${avatarNumber}.svg`}
             style={{ height: '100px', cursor: 'pointer', margin: '0.5rem' }}

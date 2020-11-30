@@ -100,7 +100,7 @@ export default function Search({ loggedIn, allResources, user }) {
           {filteredResources.map((resource) => (
             <Link key={resource.name} href={`/resources/${resource.id}`}>
               <div css={searchResultStyles}>
-                <img src="/point.svg" />
+                <img alt="" src="/point.svg" />
                 <a>{resource.name}</a>
               </div>
             </Link>

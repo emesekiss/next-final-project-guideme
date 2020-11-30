@@ -57,13 +57,16 @@ export default function Home({ loggedIn, user }: Props) {
       <div css={homeStyles}>
         <h1>Welcome to GuideMe</h1>
         <div css={sectionWrapperStyles}>
-          <img src="/guide1.svg" />
+          <img
+            alt="drawn woman standing and pointing at the text"
+            src="/guide1.svg"
+          />
           <p>
             GuideMe can help you find mental wellbeing apps and resources that
             are the best for you. It will ask you simple questions and based on
             your selected answers will show tailored resources to support you.
           </p>
-          <img src="/guide2.svg" />
+          <img alt="drawn woman standing and smiling" src="/guide2.svg" />
         </div>
         <div css={sectionWrapperStyles}>
           <a css={linkStyles} href="/guide/1">

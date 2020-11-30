@@ -61,6 +61,7 @@ export default function Register({ token, loggedIn }: Props) {
         <div css={boxStyles}>
           <h2>Register</h2>
           <input
+            title="username"
             data-cy="username"
             value={username}
             onChange={(e) => setUsername(e.currentTarget.value)}
@@ -68,6 +69,7 @@ export default function Register({ token, loggedIn }: Props) {
           />
 
           <input
+            title="password"
             data-cy="password"
             value={password}
             type="password"

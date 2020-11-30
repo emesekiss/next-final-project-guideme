@@ -98,6 +98,7 @@ export default function Header({
         {isLoggedIn && user && (
           <Link href="/profile">
             <img
+              alt="choosen avatar picture"
               style={{
                 height: '50px',
                 transform: 'scaleX(-1)',

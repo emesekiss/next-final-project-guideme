@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 
 const BurgerStyled = (props) => (
   <button
+    aria-label="menu"
     css={css`
       display: flex;
       flex-direction: column;
