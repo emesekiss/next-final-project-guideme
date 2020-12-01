@@ -44,3 +44,7 @@ This decision making website guides the user to a list of resources by asking re
 - Design planning with Figma
 
 ## Screenshots
+
+![Screenshot](./public/landingpage.png)
+![Screenshot](./public/guide.png)
+![Screenshot](./public/profile.png)
